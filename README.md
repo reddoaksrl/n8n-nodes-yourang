@@ -57,7 +57,7 @@ The node uses Bearer token authentication for all API requests.
 ## Compatibility
 
 - **Minimum n8n version**: 0.87.0
-- **Tested with**: n8n 1.0.0+
+- **Tested with**: n8n 1.105.4
 
 ## Usage
 
