@@ -45,7 +45,7 @@ export class YourangApi implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{$credentials?.baseUrl}}',
-			url: '/profile',
+			url: '/status',
 			method: 'GET',
 		},
 	};
