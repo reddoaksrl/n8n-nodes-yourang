@@ -21,27 +21,26 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 This node supports the following operations:
 
-### Call Operations
-- **Get Call**: Retrieve details of a specific call by ID
-- **Get All Calls**: Retrieve all calls with optional filtering by date range and status
-- **Get Call Transcript**: Get the transcript of a specific call
-
-### Appointment Operations
-- **Create**: Schedule a new appointment with customer details
-- **Update**: Modify an existing appointment
-- **Get**: Retrieve details of a specific appointment
-- **Get All**: List all appointments
-- **Cancel**: Cancel an existing appointment
+### Call History Operations
+- **Get**: Retrieve details of a specific call by ID
+- **Get All**: Retrieve all calls with optional filtering by sort order, call type, call status, outbound/inbound, phone number, and contact ID
 
 ### Contact Operations
-- **Create**: Add a new customer contact
-- **Update**: Modify existing contact information
-- **Get**: Retrieve details of a specific contact
-- **Get All**: List all contacts
+- **Create**: Add a new customer contact with first name, phone number, and optional last name, email, and address
+- **Update**: Modify existing contact information by contact ID
+- **Get**: Retrieve details of a specific contact by contact ID
+- **Delete**: Remove a contact by contact ID
+- **Get All**: List all contacts with optional search and sort filters
 
-### Analytics Operations
-- **Get Call Statistics**: Retrieve call metrics and performance data
-- **Get Performance Report**: Generate performance reports for specified time periods
+### Action Operations
+- **List Actions**: Retrieve available action configurations
+- **Execute Single**: Execute an action for a single phone number using a configuration ID
+- **Execute Batch Numbers**: Execute an action for multiple phone numbers (batch processing)
+- **Execute Batch Contacts**: Execute an action for multiple contacts using contact IDs (batch processing)
+- **Get Action History**: Retrieve action execution history with optional filtering by configuration ID and batch ID
+- **Get Action History Details**: Get detailed information about a specific action execution
+- **Get Batch History**: Retrieve batch execution history
+- **Get Batch History Details**: Get detailed information about a specific batch execution
 
 ## Credentials
 
@@ -63,17 +62,18 @@ The node uses Bearer token authentication for all API requests.
 
 ### Basic Workflow Examples
 
-1. **Call Monitoring**: Set up automated workflows to process completed calls and sync data to your CRM
-2. **Appointment Management**: Automatically create calendar events when new appointments are scheduled
-3. **Customer Data Sync**: Keep customer information synchronized between Yourang.ai and other systems
-4. **Analytics Reports**: Generate daily/weekly reports on call performance and metrics
+1. **Call History Analysis**: Monitor and analyze call history data to track performance metrics and customer interactions
+2. **Contact Management**: Automatically create and update customer contacts in your CRM systems
+3. **Automated Actions**: Execute single or batch phone calls using predefined action configurations
+4. **Action Tracking**: Monitor and analyze action execution history for performance insights
 
 ### Common Use Cases
 
-- Sync call data to external CRM systems
-- Send notifications when important calls are completed
-- Automatically schedule follow-up tasks based on call outcomes
-- Generate performance dashboards from analytics data
+- Sync call history and contact data to external CRM systems
+- Execute bulk phone campaigns using batch action operations
+- Monitor action execution status and track campaign performance
+- Automatically update contact information from call interactions
+- Generate reports on action execution history and success rates
 
 ## Resources
 
