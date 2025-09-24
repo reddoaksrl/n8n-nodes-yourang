@@ -16,7 +16,7 @@ export class Yourang implements INodeType {
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Interact with Yourang.ai - 24/7 AI phone assistant',
+		description: 'Interact with Yourang.ai - 24/7 AI phone assistant for calls, contacts, actions, and events',
 		defaults: {
 			name: 'Yourang',
 		},
@@ -57,6 +57,11 @@ export class Yourang implements INodeType {
 						name: 'Action',
 						value: 'action',
 						description: 'Execute actions and manage action configurations',
+					},
+					{
+						name: 'Event',
+						value: 'event',
+						description: 'Manage calendar events and appointments',
 					},
 				],
 				default: 'callHistory',
@@ -121,6 +126,18 @@ export class Yourang implements INodeType {
 								method: 'GET',
 								url: `${baseUrl}/call-history`,
 								qs,
+							}
+						);
+					}
+
+					if (operation === 'getTranscript') {
+						const callId = this.getNodeParameter('callId', i) as string;
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'GET',
+								url: `${baseUrl}/call-history/${callId}/transcript`,
 							}
 						);
 					}
@@ -228,6 +245,58 @@ export class Yourang implements INodeType {
 								method: 'GET',
 								url: `${baseUrl}/contacts`,
 								qs,
+							}
+						);
+					}
+
+					if (operation === 'getByPhone') {
+						const phoneNumber = this.getNodeParameter('phoneNumberLookup', i) as string;
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'GET',
+								url: `${baseUrl}/contacts/by-phone/${encodeURIComponent(phoneNumber)}`,
+							}
+						);
+					}
+
+					if (operation === 'updateByPhone') {
+						const phoneNumber = this.getNodeParameter('phoneNumberLookup', i) as string;
+						const body: any = {};
+
+						// Add all fields that are provided
+						const firstName = this.getNodeParameter('first_name', i) as string;
+						const lastName = this.getNodeParameter('last_name', i) as string;
+						const newPhoneNumber = this.getNodeParameter('phone_number', i) as string;
+						const email = this.getNodeParameter('email', i) as string;
+						const address = this.getNodeParameter('address', i) as string;
+
+						if (firstName) body.first_name = firstName;
+						if (lastName) body.last_name = lastName;
+						if (newPhoneNumber) body.phone_number = newPhoneNumber;
+						if (email) body.email = email;
+						if (address) body.address = address;
+
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'PUT',
+								url: `${baseUrl}/contacts/by-phone/${encodeURIComponent(phoneNumber)}`,
+								body,
+							}
+						);
+					}
+
+					if (operation === 'deleteByPhone') {
+						const phoneNumber = this.getNodeParameter('phoneNumberLookup', i) as string;
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'DELETE',
+								url: `${baseUrl}/contacts/by-phone/${encodeURIComponent(phoneNumber)}`,
 							}
 						);
 					}
@@ -376,6 +445,128 @@ export class Yourang implements INodeType {
 							{
 								method: 'GET',
 								url: `${baseUrl}/actions/batch-history/${batchExecuteId}`,
+							}
+						);
+					}
+				}
+
+				// Event operations
+				if (resource === 'event') {
+					if (operation === 'get') {
+						const eventId = this.getNodeParameter('eventId', i) as string;
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'GET',
+								url: `${baseUrl}/events/${eventId}`,
+							}
+						);
+					}
+
+					if (operation === 'getAll') {
+						let qs: any = {};
+
+						const eventsPerDay = this.getNodeParameter('eventsPerDay', i) as number;
+						if (eventsPerDay) qs.events_per_day = eventsPerDay;
+
+						const startDate = this.getNodeParameter('startDate', i) as string;
+						const endDate = this.getNodeParameter('endDate', i) as string;
+						if (startDate) qs.start_date = startDate.split('T')[0]; // Extract date part
+						if (endDate) qs.end_date = endDate.split('T')[0]; // Extract date part
+
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'GET',
+								url: `${baseUrl}/events`,
+								qs,
+							}
+						);
+					}
+
+					if (operation === 'getByDate') {
+						const targetDate = this.getNodeParameter('targetDate', i) as string;
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+
+						let qs: any = {
+							target_date: targetDate.split('T')[0], // Extract date part
+						};
+
+						if (!returnAll) {
+							const limit = this.getNodeParameter('limit', i) as number;
+							qs.limit = limit;
+						}
+
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'GET',
+								url: `${baseUrl}/events/date`,
+								qs,
+							}
+						);
+					}
+
+					if (operation === 'update') {
+						const eventId = this.getNodeParameter('eventId', i) as string;
+						const body: any = {};
+
+						// Add all fields that are provided
+						const clientFullName = this.getNodeParameter('client_full_name', i) as string;
+						const clientEmail = this.getNodeParameter('client_email', i) as string;
+						const clientPhoneNumber = this.getNodeParameter('client_phone_number', i) as string;
+						const details = this.getNodeParameter('details', i) as string;
+						const startingDate = this.getNodeParameter('starting_date', i) as string;
+						const endingDate = this.getNodeParameter('ending_date', i) as string;
+						const status = this.getNodeParameter('status', i) as string;
+
+						if (clientFullName) body.client_full_name = clientFullName;
+						if (clientEmail) body.client_email = clientEmail;
+						if (clientPhoneNumber) body.client_phone_number = clientPhoneNumber;
+						if (details) body.details = details;
+						if (startingDate) body.starting_date = startingDate;
+						if (endingDate) body.ending_date = endingDate;
+						if (status) body.status = status;
+
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'PUT',
+								url: `${baseUrl}/events/${eventId}`,
+								body,
+							}
+						);
+					}
+
+					if (operation === 'updateStatus') {
+						const eventId = this.getNodeParameter('eventId', i) as string;
+						const isApproved = this.getNodeParameter('isApproved', i) as boolean;
+
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'PATCH',
+								url: `${baseUrl}/events/${eventId}/status`,
+								qs: {
+									is_approved: isApproved,
+								},
+							}
+						);
+					}
+
+					if (operation === 'delete') {
+						const eventId = this.getNodeParameter('eventId', i) as string;
+						responseData = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'yourangApi',
+							{
+								method: 'DELETE',
+								url: `${baseUrl}/events/${eventId}`,
 							}
 						);
 					}
