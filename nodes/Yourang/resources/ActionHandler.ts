@@ -90,12 +90,17 @@ export class ActionHandler extends BaseResourceHandler {
 	 */
 	private async getActionHistory(itemIndex: number): Promise<any> {
 		const { limit } = this.getPaginationParams(itemIndex);
+		const offset = this.getParameter<number>('offset', itemIndex, 0);
 		const filters = this.getParameter<IDataObject>('filters', itemIndex, {});
 
 		const qs = this.buildQueryParams({
 			limit,
+			offset,
+			sort: filters.sort,
 			configuration_id: filters.configuration_id,
 			batch_id: filters.batch_id,
+			status: filters.status,
+			quality_text: filters.quality_text,
 		});
 
 		return this.httpRequest({

@@ -182,9 +182,27 @@ export const actionFields: INodeProperties[] = [
 		},
 		typeOptions: {
 			minValue: 1,
+			maxValue: 500,
 		},
 		default: 50,
 		description: 'Max number of results to return',
+	},
+	{
+		displayName: 'Offset',
+		name: 'offset',
+		type: 'number',
+		displayOptions: {
+			show: {
+				resource: ['action'],
+				operation: ['getActionHistory'],
+				returnAll: [false],
+			},
+		},
+		typeOptions: {
+			minValue: 0,
+		},
+		default: 0,
+		description: 'Number of records to skip for pagination',
 	},
 	{
 		displayName: 'Filters',
@@ -200,6 +218,13 @@ export const actionFields: INodeProperties[] = [
 		default: {},
 		options: [
 			{
+				displayName: 'Batch ID',
+				name: 'batch_id',
+				type: 'string',
+				default: '',
+				description: 'Filter by batch execution ID',
+			},
+			{
 				displayName: 'Configuration ID',
 				name: 'configuration_id',
 				type: 'string',
@@ -207,11 +232,127 @@ export const actionFields: INodeProperties[] = [
 				description: 'Filter by action configuration ID',
 			},
 			{
-				displayName: 'Batch ID',
-				name: 'batch_id',
-				type: 'string',
+				displayName: 'Quality Text',
+				name: 'quality_text',
+				type: 'options',
 				default: '',
-				description: 'Filter by batch execution ID',
+				options: [
+					{
+						name: 'Very Good',
+						value: 'very good',
+					},
+					{
+						name: 'Good',
+						value: 'good',
+					},
+					{
+						name: 'Neutral',
+						value: 'neutral',
+					},
+					{
+						name: 'Bad',
+						value: 'bad',
+					},
+					{
+						name: 'Very Bad',
+						value: 'very bad',
+					},
+				],
+				description: 'Filter by quality text',
+			},
+			{
+				displayName: 'Sort',
+				name: 'sort',
+				type: 'options',
+				default: '',
+				options: [
+					{
+						name: 'Completed At (Ascending)',
+						value: 'completed_at',
+					},
+					{
+						name: 'Completed At (Descending)',
+						value: '-completed_at',
+					},
+					{
+						name: 'Created At (Ascending)',
+						value: 'created_at',
+					},
+					{
+						name: 'Created At (Descending)',
+						value: '-created_at',
+					},
+					{
+						name: 'Quality Score (Ascending)',
+						value: 'quality_score',
+					},
+					{
+						name: 'Quality Score (Descending)',
+						value: '-quality_score',
+					},
+					{
+						name: 'Quality Text (Ascending)',
+						value: 'quality_text',
+					},
+					{
+						name: 'Quality Text (Descending)',
+						value: '-quality_text',
+					},
+					{
+						name: 'Started At (Ascending)',
+						value: 'started_at',
+					},
+					{
+						name: 'Started At (Descending)',
+						value: '-started_at',
+					},
+					{
+						name: 'Status (Ascending)',
+						value: 'status',
+					},
+					{
+						name: 'Status (Descending)',
+						value: '-status',
+					},
+				],
+				description: 'Sort field and order',
+			},
+			{
+				displayName: 'Status',
+				name: 'status',
+				type: 'options',
+				default: '',
+				options: [
+					{
+						name: 'Pending',
+						value: 'pending',
+					},
+					{
+						name: 'Running',
+						value: 'running',
+					},
+					{
+						name: 'Completed',
+						value: 'completed',
+					},
+					{
+						name: 'Failed',
+						value: 'failed',
+					},
+					{
+						name: 'Cancelled',
+						value: 'cancelled',
+					},
+					{
+						name: 'Not Answered',
+						value: 'not_answered',
+					},
+					{
+						name: 'Rejected',
+						value: 'rejected',
+					},
+				],
+				description: 'Filter by execution status',
 			},
 		],
 	},
