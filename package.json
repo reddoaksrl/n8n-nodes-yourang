@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-yourang",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "n8n community node for Yourang.ai - 24/7 AI phone assistant for automated call handling, appointments, customer interactions, and event management",
   "keywords": [
     "n8n-community-node-package",
@@ -52,5 +52,17 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "gulp": "^5.0.1",
+    "n8n-workflow": "^2.0.0-rc.0",
+    "prettier": "^3.7.4",
+    "rimraf": "^6.1.2",
+    "typescript": "^5.9.3"
   }
 }
