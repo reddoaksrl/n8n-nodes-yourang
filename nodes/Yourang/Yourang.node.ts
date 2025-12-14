@@ -30,7 +30,7 @@ function getResourceHandler(
 		case 'event':
 			return new EventHandler(context, baseUrl);
 		default:
-			throw new Error(`Unknown resource: ${resource}`);
+			throw new NodeOperationError(context.getNode(), `Unknown resource: ${resource}`);
 	}
 }
 

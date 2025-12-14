@@ -251,6 +251,14 @@ export const contactFields: INodeProperties[] = [
 				description: 'How to combine multiple search conditions',
 			},
 			{
+				displayName: 'Email',
+				name: 'email',
+				type: 'string',
+				placeholder: 'name@email.com',
+				default: '',
+				description: 'Filter by email address',
+			},
+			{
 				displayName: 'First Name',
 				name: 'first_name',
 				type: 'string',
@@ -263,13 +271,6 @@ export const contactFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description: 'Filter by last name',
-			},
-			{
-				displayName: 'Email',
-				name: 'email',
-				type: 'string',
-				default: '',
-				description: 'Filter by email address',
 			},
 			{
 				displayName: 'Phone Number',

@@ -182,7 +182,6 @@ export const actionFields: INodeProperties[] = [
 		},
 		typeOptions: {
 			minValue: 1,
-			maxValue: 500,
 		},
 		default: 50,
 		description: 'Max number of results to return',
@@ -235,11 +234,11 @@ export const actionFields: INodeProperties[] = [
 				displayName: 'Quality Text',
 				name: 'quality_text',
 				type: 'options',
-				default: '',
+				default: 'bad',
 				options: [
 					{
-						name: 'Very Good',
-						value: 'very good',
+						name: 'Bad',
+						value: 'bad',
 					},
 					{
 						name: 'Good',
@@ -248,10 +247,6 @@ export const actionFields: INodeProperties[] = [
 					{
 						name: 'Neutral',
 						value: 'neutral',
-					},
-					{
-						name: 'Bad',
-						value: 'bad',
 					},
 					{
 						name: 'Very Bad',
@@ -264,7 +259,7 @@ export const actionFields: INodeProperties[] = [
 				displayName: 'Sort',
 				name: 'sort',
 				type: 'options',
-				default: '',
+				default: 'completed_at',
 				options: [
 					{
 						name: 'Completed At (Ascending)',
@@ -321,15 +316,11 @@ export const actionFields: INodeProperties[] = [
 				displayName: 'Status',
 				name: 'status',
 				type: 'options',
-				default: '',
+				default: 'pending',
 				options: [
 					{
-						name: 'Pending',
-						value: 'pending',
-					},
-					{
-						name: 'Running',
-						value: 'running',
+						name: 'Cancelled',
+						value: 'cancelled',
 					},
 					{
 						name: 'Completed',
@@ -340,16 +331,20 @@ export const actionFields: INodeProperties[] = [
 						value: 'failed',
 					},
 					{
-						name: 'Cancelled',
-						value: 'cancelled',
-					},
-					{
 						name: 'Not Answered',
 						value: 'not_answered',
 					},
 					{
+						name: 'Pending',
+						value: 'pending',
+					},
+					{
 						name: 'Rejected',
 						value: 'rejected',
+					},
+					{
+						name: 'Running',
+						value: 'running',
 					},
 				],
 				description: 'Filter by execution status',
