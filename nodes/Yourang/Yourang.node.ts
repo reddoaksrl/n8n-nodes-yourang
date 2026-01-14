@@ -11,6 +11,8 @@ import { CallHistoryHandler } from './resources/CallHistoryHandler';
 import { ContactHandler } from './resources/ContactHandler';
 import { ActionHandler } from './resources/ActionHandler';
 import { EventHandler } from './resources/EventHandler';
+import { AgentHandler } from './resources/AgentHandler';
+import { AgentToolHandler } from './resources/AgentToolHandler';
 
 /**
  * Get the appropriate handler for a resource
@@ -18,7 +20,7 @@ import { EventHandler } from './resources/EventHandler';
 function getResourceHandler(
 	resource: string,
 	context: IExecuteFunctions,
-	baseUrl: string
+	baseUrl: string,
 ): BaseResourceHandler {
 	switch (resource) {
 		case 'callHistory':
@@ -29,6 +31,10 @@ function getResourceHandler(
 			return new ActionHandler(context, baseUrl);
 		case 'event':
 			return new EventHandler(context, baseUrl);
+		case 'agent':
+			return new AgentHandler(context, baseUrl);
+		case 'agentTool':
+			return new AgentToolHandler(context, baseUrl);
 		default:
 			throw new NodeOperationError(context.getNode(), `Unknown resource: ${resource}`);
 	}
@@ -38,17 +44,17 @@ export class Yourang implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Yourang',
 		name: 'yourang',
-		icon: { light: 'file:yourang.svg', dark: 'file:yourang.svg' },
+		icon: 'file:yourang.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Interact with Yourang.ai - 24/7 AI phone assistant for calls, contacts, actions, and events',
+		description:
+			'Interact with Yourang.ai - 24/7 AI phone assistant for calls, contacts, actions, and events',
 		defaults: {
 			name: 'Yourang',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
-		usableAsTool: true,
 		credentials: [
 			{
 				name: 'yourangApi',
@@ -70,6 +76,21 @@ export class Yourang implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
+						name: 'Action',
+						value: 'action',
+						description: 'Execute actions and manage action configurations',
+					},
+					{
+						name: 'Agent',
+						value: 'agent',
+						description: 'Retrieve and manage AI agents',
+					},
+					{
+						name: 'Agent Tool',
+						value: 'agentTool',
+						description: 'Manage tools available for an agent',
+					},
+					{
 						name: 'Call History',
 						value: 'callHistory',
 						description: 'Retrieve and manage call history records',
@@ -78,11 +99,6 @@ export class Yourang implements INodeType {
 						name: 'Contact',
 						value: 'contact',
 						description: 'Manage customer contacts and information',
-					},
-					{
-						name: 'Action',
-						value: 'action',
-						description: 'Execute actions and manage action configurations',
 					},
 					{
 						name: 'Event',
@@ -116,10 +132,9 @@ export class Yourang implements INodeType {
 			try {
 				const responseData = await handler.execute(operation, i);
 
-				const executionData = this.helpers.constructExecutionMetaData(
-					[{ json: responseData }],
-					{ itemData: { item: i } },
-				);
+				const executionData = this.helpers.constructExecutionMetaData([{ json: responseData }], {
+					itemData: { item: i },
+				});
 
 				returnData.push(...executionData);
 			} catch (error) {
