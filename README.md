@@ -34,7 +34,7 @@ This node supports the following operations:
 
 ### Action Operations
 - **List Actions**: Retrieve available action configurations
-- **Execute Single**: Execute an action for a single phone number using a configuration ID
+- **Execute Single**: Execute an action for a single phone number using a configuration ID. Optionally include custom context (e.g., customer info, booking ID, VIP status) to personalize the action
 - **Execute Batch Numbers**: Execute an action for multiple phone numbers (batch processing)
 - **Execute Batch Contacts**: Execute an action for multiple contacts using contact IDs (batch processing)
 - **Get Action History**: Retrieve action execution history with optional filtering by configuration ID and batch ID

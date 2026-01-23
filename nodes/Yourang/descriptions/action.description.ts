@@ -95,6 +95,22 @@ export const actionFields: INodeProperties[] = [
 		description: 'Phone number in E.164 format (e.g., +1234567890)',
 	},
 	{
+		displayName: 'Custom Context',
+		name: 'custom_context',
+		type: 'string',
+		typeOptions: {
+			rows: 4,
+		},
+		displayOptions: {
+			show: {
+				resource: ['action'],
+				operation: ['executeSingle'],
+			},
+		},
+		default: '',
+		description: 'Optional custom context for the action execution (e.g., customer info, booking ID)',
+	},
+	{
 		displayName: 'Phone Numbers',
 		name: 'to_numbers',
 		type: 'string',

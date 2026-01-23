@@ -47,11 +47,19 @@ export class ActionHandler extends BaseResourceHandler {
 	private async executeSingle(itemIndex: number): Promise<any> {
 		const configurationId = this.getParameter<string>('configurationId', itemIndex);
 		const toNumber = this.getParameter<string>('to_number', itemIndex);
+		const customContext = this.getParameter<string>('custom_context', itemIndex, '');
+
+		const body: IDataObject = { to_number: toNumber };
+
+		// Only include custom_context if it's not empty
+		if (customContext) {
+			body.custom_context = customContext;
+		}
 
 		return this.httpRequest({
 			method: 'POST',
 			url: `${this.baseUrl}/actions/${configurationId}/execute`,
-			body: { to_number: toNumber },
+			body,
 		});
 	}
 
