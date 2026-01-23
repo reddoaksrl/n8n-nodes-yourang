@@ -213,9 +213,25 @@ export const agentToolFields: INodeProperties[] = [
 						default: 'monday',
 					},
 					{
+						displayName: 'Mode',
+						name: 'mode',
+						type: 'options',
+						options: [
+							{ name: 'Specific Hours', value: 'hours' },
+							{ name: 'Open All Day', value: 'open' },
+							{ name: 'Closed All Day', value: 'closed' },
+						],
+						default: 'hours',
+					},
+					{
 						displayName: 'Time Ranges',
 						name: 'ranges',
 						type: 'string',
+						displayOptions: {
+							show: {
+								mode: ['hours'],
+							},
+						},
 						default: '09:00 - 18:00',
 						placeholder: 'e.g. 09:00 - 12:00, 14:00 - 18:00',
 					},
@@ -294,9 +310,25 @@ export const agentToolFields: INodeProperties[] = [
 						default: 'monday',
 					},
 					{
+						displayName: 'Mode',
+						name: 'mode',
+						type: 'options',
+						options: [
+							{ name: 'Specific Hours', value: 'hours' },
+							{ name: 'Open All Day', value: 'open' },
+							{ name: 'Closed All Day', value: 'closed' },
+						],
+						default: 'hours',
+					},
+					{
 						displayName: 'Time Ranges',
 						name: 'ranges',
 						type: 'string',
+						displayOptions: {
+							show: {
+								mode: ['hours'],
+							},
+						},
 						default: '09:00 - 18:00',
 						placeholder: 'e.g. 09:00 - 12:00, 14:00 - 18:00',
 					},
@@ -394,9 +426,25 @@ export const agentToolFields: INodeProperties[] = [
 										default: 'monday',
 									},
 									{
+										displayName: 'Mode',
+										name: 'mode',
+										type: 'options',
+										options: [
+											{ name: 'Specific Hours', value: 'hours' },
+											{ name: 'Open All Day', value: 'open' },
+											{ name: 'Closed All Day', value: 'closed' },
+										],
+										default: 'hours',
+									},
+									{
 										displayName: 'Time Ranges',
 										name: 'ranges',
 										type: 'string',
+										displayOptions: {
+											show: {
+												mode: ['hours'],
+											},
+										},
 										default: '09:00 - 18:00',
 										placeholder: 'e.g. 09:00 - 12:00, 14:00 - 18:00',
 									},

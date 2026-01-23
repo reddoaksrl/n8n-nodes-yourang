@@ -6,22 +6,18 @@ export class AgentToolHandler extends BaseResourceHandler {
 		if (operation === 'getAll') {
 			const agentId = this.getParameter<string>('agentId', itemIndex);
 
-			const response = await this.httpRequest({
+			return await this.httpRequest({
 				method: 'GET',
-				url: `${this.baseUrl}/v1/agents/${agentId}/tools`,
+				url: `${this.baseUrl}/agents/${agentId}/tools`,
 			});
-
-			return response.data;
 		} else if (operation === 'get') {
 			const agentId = this.getParameter<string>('agentId', itemIndex);
 			const toolName = this.getParameter<string>('toolName', itemIndex);
 
-			const response = await this.httpRequest({
+			return await this.httpRequest({
 				method: 'GET',
-				url: `${this.baseUrl}/v1/agents/${agentId}/tools/${toolName}`,
+				url: `${this.baseUrl}/agents/${agentId}/tools/${toolName}`,
 			});
-
-			return response.data;
 		} else if (operation === 'update') {
 			const agentId = this.getParameter<string>('agentId', itemIndex);
 			const toolName = this.getParameter<string>('toolName', itemIndex);
@@ -81,13 +77,11 @@ export class AgentToolHandler extends BaseResourceHandler {
 				}
 			}
 
-			const response = await this.httpRequest({
+			return await this.httpRequest({
 				method: 'PATCH',
-				url: `${this.baseUrl}/v1/agents/${agentId}/tools/${toolName}`,
+				url: `${this.baseUrl}/agents/${agentId}/tools/${toolName}`,
 				body,
 			});
-
-			return response.data;
 		}
 
 		throw new Error(`Unknown operation: ${operation}`);
@@ -101,13 +95,21 @@ export class AgentToolHandler extends BaseResourceHandler {
 	private transformSchedule(scheduleItems: any[]): Record<string, string[]> {
 		const result: Record<string, string[]> = {};
 		for (const item of scheduleItems) {
-			if (item.day && item.ranges) {
+			if (item.day) {
 				const day = item.day as string;
-				const ranges = (item.ranges as string)
-					.split(',')
-					.map((r) => r.trim())
-					.filter((r) => r.length > 0);
-				result[day] = ranges;
+				const mode = (item.mode as string) || 'hours';
+
+				if (mode === 'open') {
+					result[day] = ['00:00 - 23:59'];
+				} else if (mode === 'closed') {
+					result[day] = [];
+				} else if (mode === 'hours' && item.ranges) {
+					const ranges = (item.ranges as string)
+						.split(',')
+						.map((r) => r.trim())
+						.filter((r) => r.length > 0);
+					result[day] = ranges;
+				}
 			}
 		}
 		return result;

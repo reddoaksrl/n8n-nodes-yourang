@@ -6,6 +6,7 @@ export class AgentHandler extends BaseResourceHandler {
 		if (operation === 'getAll') {
 			const filters = this.getParameter<IDataObject>('filters', itemIndex, {});
 			const agentType = filters.agent_type as string;
+
 			const { limit, returnAll } = this.getPaginationParams(itemIndex);
 
 			const qs = this.buildQueryParams({
@@ -13,20 +14,18 @@ export class AgentHandler extends BaseResourceHandler {
 				limit: returnAll ? undefined : limit,
 			});
 
-			const response = await this.httpRequest({
+			return await this.httpRequest({
 				method: 'GET',
-				url: `${this.baseUrl}/v1/agents/`,
+				url: `${this.baseUrl}/agents`,
 				qs,
 			});
-
-			return response.data;
 		} else if (operation === 'get') {
 			const agentId = this.getParameter<string>('agentId', itemIndex);
 
 			return await this.httpRequest({
 				method: 'GET',
-				url: `${this.baseUrl}/v1/agents/${agentId}`,
-			}).then((res) => res.data);
+				url: `${this.baseUrl}/agents/${agentId}`,
+			});
 		}
 
 		throw new Error(`Unknown operation: ${operation}`);
