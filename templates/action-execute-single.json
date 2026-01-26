@@ -1,0 +1,58 @@
+{
+  "name": "Yourang - Execute Single Action",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b1e7c5d4-8f2a-4a3b-9c6d-1e2f3a4b5c6d",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "action",
+        "operation": "executeSingle",
+        "configurationId": "your-configuration-id-here",
+        "to_number": "+1234567890",
+        "custom_context": "Customer Name: John Doe\nBooking ID: BK-12345\nVIP Status: Gold\nAppointment: 2024-03-15 at 10:00 AM"
+      },
+      "id": "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+      "name": "Execute Action with Context",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Execute Action with Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "yourang-template"
+  },
+  "id": "action-execute-single",
+  "tags": []
+}

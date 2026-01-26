@@ -1,0 +1,288 @@
+{
+  "name": "Yourang - Complete Workflow Example",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "node-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [250, 400]
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 50,
+        "search": {
+          "sort": "-created_at"
+        }
+      },
+      "id": "node-get-contacts",
+      "name": "Get New Contacts",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [450, 400],
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.email}}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "node-filter-contacts",
+      "name": "Filter Contacts with Email",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "resource": "action",
+        "operation": "executeSingle",
+        "configurationId": "welcome-call-config-id",
+        "to_number": "={{$json.phone_number}}",
+        "custom_context": "Contact Name: {{$json.first_name}} {{$json.last_name}}\nEmail: {{$json.email}}\nContact ID: {{$json.id}}"
+      },
+      "id": "node-execute-welcome-call",
+      "name": "Execute Welcome Call",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "wait",
+        "amount": 5,
+        "unit": "minutes"
+      },
+      "id": "node-wait",
+      "name": "Wait 5 Minutes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "resource": "callHistory",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 1,
+        "filters": {
+          "phone_number": "={{$json.phone_number}}",
+          "sort": "-start_time"
+        }
+      },
+      "id": "node-get-call-status",
+      "name": "Get Call Status",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [1250, 300],
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.call_status}}",
+              "value2": "Completed"
+            }
+          ]
+        }
+      },
+      "id": "node-check-call-completed",
+      "name": "Check if Call Completed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "resource": "callHistory",
+        "operation": "getTranscript",
+        "callId": "={{$json.id}}"
+      },
+      "id": "node-get-transcript",
+      "name": "Get Call Transcript",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [1650, 200],
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "callHistory",
+        "operation": "getSummary",
+        "callId": "={{$json.id}}"
+      },
+      "id": "node-get-summary",
+      "name": "Get AI Summary",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [1850, 200],
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "requestMethod": "POST",
+        "url": "https://your-crm-system.com/api/log-call",
+        "jsonParameters": true,
+        "bodyParametersJson": "={\"contact_id\": \"{{$json.contact_id}}\", \"call_transcript\": \"{{$json.transcript}}\", \"call_summary\": \"{{$json.summary}}\", \"call_status\": \"{{$json.call_status}}\"}"
+      },
+      "id": "node-send-to-crm",
+      "name": "Send to CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2050, 200]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get New Contacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get New Contacts": {
+      "main": [
+        [
+          {
+            "node": "Filter Contacts with Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Contacts with Email": {
+      "main": [
+        [
+          {
+            "node": "Execute Welcome Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Welcome Call": {
+      "main": [
+        [
+          {
+            "node": "Wait 5 Minutes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Get Call Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Call Status": {
+      "main": [
+        [
+          {
+            "node": "Check if Call Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Call Completed": {
+      "main": [
+        [
+          {
+            "node": "Get Call Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Call Transcript": {
+      "main": [
+        [
+          {
+            "node": "Get AI Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get AI Summary": {
+      "main": [
+        [
+          {
+            "node": "Send to CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "yourang-template"
+  },
+  "id": "complete-workflow-example",
+  "tags": []
+}
