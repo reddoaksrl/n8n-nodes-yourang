@@ -13,6 +13,7 @@ import { ActionHandler } from './resources/ActionHandler';
 import { EventHandler } from './resources/EventHandler';
 import { AgentHandler } from './resources/AgentHandler';
 import { AgentToolHandler } from './resources/AgentToolHandler';
+import { WorkflowHandler } from './resources/WorkflowHandler';
 
 /**
  * Get the appropriate handler for a resource
@@ -35,6 +36,8 @@ function getResourceHandler(
 			return new AgentHandler(context, baseUrl);
 		case 'agentTool':
 			return new AgentToolHandler(context, baseUrl);
+		case 'workflow':
+			return new WorkflowHandler(context, baseUrl);
 		default:
 			throw new NodeOperationError(context.getNode(), `Unknown resource: ${resource}`);
 	}
@@ -104,6 +107,11 @@ export class Yourang implements INodeType {
 						name: 'Event',
 						value: 'event',
 						description: 'Manage calendar events and appointments',
+					},
+					{
+						name: 'Workflow',
+						value: 'workflow',
+						description: 'Manage and execute workflows',
 					},
 				],
 				default: 'callHistory',

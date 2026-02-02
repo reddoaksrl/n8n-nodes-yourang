@@ -13,6 +13,8 @@ import { agentOperations, agentFields } from './descriptions/agent.description';
 
 import { agentToolOperations, agentToolFields } from './descriptions/agentTool.description';
 
+import { workflowOperations, workflowFields } from './descriptions/workflow.description';
+
 // Combine all operations
 export const yourangOperations: INodeProperties[] = [
 	...callHistoryOperations,
@@ -21,6 +23,7 @@ export const yourangOperations: INodeProperties[] = [
 	...eventOperations,
 	...agentOperations,
 	...agentToolOperations,
+	...workflowOperations,
 ];
 
 // Combine all fields
@@ -31,4 +34,5 @@ export const yourangFields: INodeProperties[] = [
 	...eventFields,
 	...agentFields,
 	...agentToolFields,
+	...workflowFields,
 ];
