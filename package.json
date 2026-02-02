@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-yourang",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "n8n community node for Yourang.ai - 24/7 AI phone assistant for automated call handling, appointments, customer interactions, and event management",
   "keywords": [
     "n8n-community-node-package",
