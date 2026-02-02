@@ -1,0 +1,56 @@
+{
+  "name": "Yourang - Get Call Transcript",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b1e7c5d4-8f2a-4a3b-9c6d-1e2f3a4b5c6d",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "callHistory",
+        "operation": "getTranscript",
+        "callId": "your-call-id-here"
+      },
+      "id": "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+      "name": "Get Call Transcript",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Get Call Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "yourang-template"
+  },
+  "id": "call-history-get-transcript",
+  "tags": []
+}

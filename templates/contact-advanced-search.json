@@ -1,0 +1,59 @@
+{
+  "name": "Yourang - Advanced Contact Search",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b1e7c5d4-8f2a-4a3b-9c6d-1e2f3a4b5c6d",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 30,
+        "advancedFilter": "first_name:John|first_name:Jane&email:@gmail.com"
+      },
+      "id": "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+      "name": "Search Contacts with Advanced Filter",
+      "type": "n8n-nodes-yourang",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "notes": "Searches for contacts named John OR Jane AND email contains @gmail.com",
+      "credentials": {
+        "yourangApi": {
+          "id": "1",
+          "name": "Yourang API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Search Contacts with Advanced Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "yourang-template"
+  },
+  "id": "contact-advanced-search",
+  "tags": []
+}
