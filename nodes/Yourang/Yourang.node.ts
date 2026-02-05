@@ -125,6 +125,11 @@ export class Yourang implements INodeType {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
 
+		// If no input items, return empty result
+		if (items.length === 0) {
+			return [returnData];
+		}
+
 		const resource = this.getNodeParameter('resource', 0) as string;
 		const operation = this.getNodeParameter('operation', 0) as string;
 
