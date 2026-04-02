@@ -1,4 +1,4 @@
-import { IExecuteFunctions, IDataObject, IHttpRequestMethods } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject, IHttpRequestMethods, NodeApiError, JsonObject } from 'n8n-workflow';
 
 /**
  * Base abstract class for resource handlers
@@ -34,16 +34,20 @@ export abstract class BaseResourceHandler {
 		body?: IDataObject;
 		qs?: IDataObject;
 	}): Promise<any> {
-		return await this.context.helpers.httpRequestWithAuthentication.call(
-			this.context,
-			'yourangApi',
-			{
-				method: options.method,
-				url: options.url,
-				body: options.body,
-				qs: options.qs,
-			}
-		);
+		try {
+			return await this.context.helpers.httpRequestWithAuthentication.call(
+				this.context,
+				'yourangApi',
+				{
+					method: options.method,
+					url: options.url,
+					body: options.body,
+					qs: options.qs,
+				}
+			);
+		} catch (error) {
+			throw new NodeApiError(this.context.getNode(), error as JsonObject);
+		}
 	}
 
 	/**

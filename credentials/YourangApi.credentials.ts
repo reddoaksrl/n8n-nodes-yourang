@@ -9,6 +9,7 @@ export class YourangApi implements ICredentialType {
 	name = 'yourangApi';
 	displayName = 'Yourang API';
 	documentationUrl = 'https://developers.yourang.ai/';
+	icon = 'file:yourang.svg' as const;
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Key',

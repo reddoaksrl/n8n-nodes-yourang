@@ -1,85 +1,120 @@
 # n8n-nodes-yourang
 
-This is an n8n community node. It lets you use Yourang.ai in your n8n workflows.
+[![npm version](https://img.shields.io/npm/v/n8n-nodes-yourang.svg)](https://www.npmjs.com/package/n8n-nodes-yourang)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
-Yourang.ai is a 24/7 AI phone assistant that handles calls, appointments, and customer interactions automatically. It provides intelligent call routing, appointment scheduling, transcription services, and customer data collection.
+An [n8n](https://n8n.io/) community node to integrate [yourang.ai](https://yourang.ai) into your workflows. Automate call handling, contact management, appointment scheduling, and AI agent configuration directly from n8n.
 
-[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
-
-[Installation](#installation)  
-[Operations](#operations)  
-[Credentials](#credentials)  
-[Compatibility](#compatibility)  
-[Usage](#usage)  
-[Resources](#resources)  
+[yourang.ai](https://yourang.ai) is a 24/7 AI phone assistant that handles inbound and outbound calls, schedules appointments, collects customer data, and manages interactions automatically.
 
 ## Installation
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
+Follow the [n8n community nodes installation guide](https://docs.n8n.io/integrations/community-nodes/installation/):
 
-## Operations
-
-This node supports the following operations:
-
-### Call History Operations
-- **Get**: Retrieve details of a specific call by ID
-- **Get All**: Retrieve all calls with optional filtering by sort order, call type, call status, outbound/inbound, phone number, and contact ID
-
-### Contact Operations
-- **Create**: Add a new customer contact with first name, phone number, and optional last name, email, and address
-- **Update**: Modify existing contact information by contact ID
-- **Get**: Retrieve details of a specific contact by contact ID
-- **Delete**: Remove a contact by contact ID
-- **Get All**: List all contacts with optional search and sort filters
-
-### Action Operations
-- **List Actions**: Retrieve available action configurations
-- **Execute Single**: Execute an action for a single phone number using a configuration ID. Optionally include custom context (e.g., customer info, booking ID, VIP status) to personalize the action
-- **Execute Batch Numbers**: Execute an action for multiple phone numbers (batch processing)
-- **Execute Batch Contacts**: Execute an action for multiple contacts using contact IDs (batch processing)
-- **Get Action History**: Retrieve action execution history with optional filtering by configuration ID and batch ID
-- **Get Action History Details**: Get detailed information about a specific action execution
-- **Get Batch History**: Retrieve batch execution history
-- **Get Batch History Details**: Get detailed information about a specific batch execution
+1. Open **Settings > Community Nodes** in your n8n instance
+2. Enter `n8n-nodes-yourang`
+3. Click **Install**
 
 ## Credentials
 
-To use this node, you need to set up authentication with Yourang.ai:
+1. Create an account at [app.yourang.ai](https://app.yourang.ai)
+2. Generate an API key from your dashboard
+3. In n8n, add new **Yourang API** credentials with your API key
 
-1. Sign up for a Yourang.ai account at [yourang.ai](https://yourang.ai/)
-2. Access your dashboard to generate an API key
-3. In n8n, create new credentials for "Yourang API"
-4. Enter your API key and base URL (default: https://api.yourang.ai/v1)
+The default API base URL is `https://api.yourang.ai/v1`. See the full [API documentation](https://developers.yourang.ai) for details.
 
-The node uses Bearer token authentication for all API requests.
+## Operations
+
+### Call History
+
+| Operation | Description |
+|-----------|-------------|
+| Get Call | Retrieve details of a specific call |
+| Get Many | List calls with filters (type, status, direction, phone, contact) |
+| Get Transcript | Get the transcript for a specific call |
+| Get Summary | Get AI-generated summary for a call |
+
+### Contact
+
+| Operation | Description |
+|-----------|-------------|
+| Create | Add a new contact (name, phone, email, address) |
+| Get | Retrieve a contact by ID |
+| Get by Phone | Retrieve a contact by phone number |
+| Get Many | List contacts with search and sort filters |
+| Update | Update a contact by ID |
+| Update by Phone | Update a contact by phone number |
+| Delete | Remove a contact by ID |
+| Delete by Phone | Remove a contact by phone number |
+
+### Action
+
+| Operation | Description |
+|-----------|-------------|
+| List Available Actions | List all action configurations |
+| Execute Single | Execute an action for a single phone number with optional context |
+| Execute Batch (Numbers) | Execute an action for up to 50 phone numbers |
+| Execute Batch (Contacts) | Execute an action for up to 50 contact IDs |
+| Get Action History | Retrieve action execution history |
+| Get Action History Details | Get details of a specific action execution |
+| Get Batch History | Retrieve batch execution history |
+| Get Batch History Details | Get details of a specific batch execution |
+
+### Event
+
+| Operation | Description |
+|-----------|-------------|
+| Get | Get details of a specific event |
+| Get by Date | Get events for a specific date |
+| Get Many | Get events grouped by date range |
+| Update | Update an existing event |
+| Update Status | Approve or reject an event |
+| Delete | Delete an event |
+
+### Agent
+
+| Operation | Description |
+|-----------|-------------|
+| Get | Get details of a specific AI agent |
+| Get Many | List agents for your organization |
+
+### Agent Tool
+
+| Operation | Description |
+|-----------|-------------|
+| Get | Get configuration for a specific agent tool |
+| Get Many | List tools available for a specific agent |
+| Update | Update configuration for an agent tool |
+
+### Workflow
+
+| Operation | Description |
+|-----------|-------------|
+| Get | Get workflow details |
+| Get Many | List workflows |
+| Execute | Execute a workflow |
+| Get Executions | List workflow executions |
+| Get Execution Details | Get details of a specific execution |
+
+## Example Use Cases
+
+- **CRM Sync** -- Push call history and contact data to your CRM after each call
+- **Outbound Campaigns** -- Trigger batch actions from a spreadsheet or database
+- **Appointment Automation** -- Create, update, and manage events from external calendars
+- **Call Analytics** -- Collect transcripts and AI summaries for reporting dashboards
+- **Agent Configuration** -- Manage AI agent tools and workflows programmatically
 
 ## Compatibility
 
-- **Minimum n8n version**: 0.87.0
-- **Tested with**: n8n 1.105.4
-
-## Usage
-
-### Basic Workflow Examples
-
-1. **Call History Analysis**: Monitor and analyze call history data to track performance metrics and customer interactions
-2. **Contact Management**: Automatically create and update customer contacts in your CRM systems
-3. **Automated Actions**: Execute single or batch phone calls using predefined action configurations
-4. **Action Tracking**: Monitor and analyze action execution history for performance insights
-
-### Common Use Cases
-
-- Sync call history and contact data to external CRM systems
-- Execute bulk phone campaigns using batch action operations
-- Monitor action execution status and track campaign performance
-- Automatically update contact information from call interactions
-- Generate reports on action execution history and success rates
+- **Minimum n8n version**: 1.0.0
+- **Node.js**: >= 20.15
 
 ## Resources
 
-* [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-* [Yourang.ai website](https://yourang.ai/)
-* [Yourang.ai Developer Documentation](https://developers.yourang.ai/)
+- [yourang.ai](https://yourang.ai) -- product website
+- [Yourang Dashboard](https://app.yourang.ai) -- Manage your account and API keys
+- [API Documentation](https://developers.yourang.ai) -- Full API reference
+- [n8n Community Nodes](https://docs.n8n.io/integrations/community-nodes/) -- n8n docs
 
 ## License
 
