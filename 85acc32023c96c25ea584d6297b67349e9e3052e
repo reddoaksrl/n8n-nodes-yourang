@@ -1,0 +1,42 @@
+nodes/Yourang/resources/ContactHandler.ts
+  262880987969554e 101,107-110
+nodes/Yourang/resources/ActionHandler.ts
+  262880987969554e 100,103,111-116,120,140,142-145,150
+nodes/Yourang/resources/BaseResourceHandler.ts
+  262880987969554e 111-174
+nodes/Yourang/resources/EventHandler.ts
+  262880987969554e 68,72-73
+nodes/Yourang/resources/CallHistoryHandler.ts
+  262880987969554e 42,54-57,61
+nodes/Yourang/resources/WorkflowHandler.ts
+  262880987969554e 23,27-30,32,82-96,101
+nodes/Yourang/descriptions/workflow.description.ts
+  262880987969554e 30,223
+package.json
+  262880987969554e 3
+nodes/Yourang/resources/AgentHandler.ts
+  262880987969554e 10-11,13-15,20
+nodes/Yourang/Yourang.node.json
+  262880987969554e 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "85acc32023c96c25ea584d6297b67349e9e3052e",
+  "prompts": {
+    "262880987969554e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c5b95af0-7f87-4a7f-992a-4b5bd189827a",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ReddoakMatteoSchifano",
+      "messages": [],
+      "total_additions": 145,
+      "total_deletions": 37,
+      "accepted_lines": 137,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/27ca9df60424e2d47bcd953dc24ea7039370f3aebf75f91c6507ddd577db4190"
+    }
+  }
+}
