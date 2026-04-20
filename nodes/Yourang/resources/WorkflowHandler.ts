@@ -20,12 +20,16 @@ export class WorkflowHandler extends BaseResourceHandler {
 	}
 
 	private async getAll(itemIndex: number): Promise<any> {
-		const { limit } = this.getPaginationParams(itemIndex);
+		const { returnAll, limit } = this.getPaginationParams(itemIndex);
 		const filters = this.getParameter<IDataObject>('filters', itemIndex, {});
 		const advancedFilter = this.getParameter<string>('advancedFilter', itemIndex, '');
 
-		const qs = this.buildWorkflowFilters(filters, advancedFilter, limit);
+		if (returnAll) {
+			const qs = this.buildWorkflowFilters(filters, advancedFilter, undefined);
+			return this.httpRequestAll({ url: `${this.baseUrl}/workflows/`, qs, pageSize: 100 });
+		}
 
+		const qs = this.buildWorkflowFilters(filters, advancedFilter, limit);
 		return this.httpRequest({
 			method: 'GET',
 			url: `${this.baseUrl}/workflows/`,
@@ -71,18 +75,30 @@ export class WorkflowHandler extends BaseResourceHandler {
 
 	private async getExecutions(itemIndex: number): Promise<any> {
 		const workflowId = this.getParameter<string>('workflowId', itemIndex);
-		const { limit } = this.getPaginationParams(itemIndex);
-		const filters = this.getParameter<IDataObject>('executionFilters', itemIndex, {});
-
 		if (!workflowId || !workflowId.trim()) {
 			throw new Error('Workflow ID is required');
+		}
+
+		const { returnAll, limit } = this.getPaginationParams(itemIndex);
+		const filters = this.getParameter<IDataObject>('executionFilters', itemIndex, {});
+		const filterStr = this.buildExecutionFilter(filters);
+
+		if (returnAll) {
+			const qs = this.buildQueryParams({ sort: filters.sort, filter: filterStr });
+			const startOffset = typeof filters.offset === 'number' ? filters.offset : 0;
+			return this.httpRequestAll({
+				url: `${this.baseUrl}/workflows/${workflowId}/executions`,
+				qs,
+				pageSize: 100,
+				startOffset,
+			});
 		}
 
 		const qs = this.buildQueryParams({
 			limit,
 			offset: filters.offset,
 			sort: filters.sort,
-			filter: this.buildExecutionFilter(filters),
+			filter: filterStr,
 		});
 
 		return this.httpRequest({

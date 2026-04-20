@@ -97,13 +97,10 @@ export class ActionHandler extends BaseResourceHandler {
 	 * Get action execution history
 	 */
 	private async getActionHistory(itemIndex: number): Promise<any> {
-		const { limit } = this.getPaginationParams(itemIndex);
-		const offset = this.getParameter<number>('offset', itemIndex, 0);
+		const { returnAll, limit } = this.getPaginationParams(itemIndex);
 		const filters = this.getParameter<IDataObject>('filters', itemIndex, {});
 
-		const qs = this.buildQueryParams({
-			limit,
-			offset,
+		const filterQs = this.buildQueryParams({
 			sort: filters.sort,
 			configuration_id: filters.configuration_id,
 			batch_id: filters.batch_id,
@@ -111,10 +108,16 @@ export class ActionHandler extends BaseResourceHandler {
 			quality_text: filters.quality_text,
 		});
 
+		if (returnAll) {
+			// actions/history pagination assumes same { ok, data, meta: { total_items } } shape as other endpoints
+			return this.httpRequestAll({ url: `${this.baseUrl}/actions/history`, qs: filterQs });
+		}
+
+		const offset = this.getParameter<number>('offset', itemIndex, 0);
 		return this.httpRequest({
 			method: 'GET',
 			url: `${this.baseUrl}/actions/history`,
-			qs,
+			qs: { ...filterQs, limit, offset },
 		});
 	}
 
@@ -134,14 +137,17 @@ export class ActionHandler extends BaseResourceHandler {
 	 * Get batch execution history
 	 */
 	private async getBatchHistory(itemIndex: number): Promise<any> {
-		const { limit } = this.getPaginationParams(itemIndex);
+		const { returnAll, limit } = this.getPaginationParams(itemIndex);
 
-		const qs = this.buildQueryParams({ limit });
+		if (returnAll) {
+			// actions/batch-history pagination assumes same { ok, data, meta: { total_items } } shape as other endpoints
+			return this.httpRequestAll({ url: `${this.baseUrl}/actions/batch-history` });
+		}
 
 		return this.httpRequest({
 			method: 'GET',
 			url: `${this.baseUrl}/actions/batch-history`,
-			qs,
+			qs: this.buildQueryParams({ limit }),
 		});
 	}
 

@@ -7,17 +7,17 @@ export class AgentHandler extends BaseResourceHandler {
 			const filters = this.getParameter<IDataObject>('filters', itemIndex, {});
 			const agentType = filters.agent_type as string;
 
-			const { limit, returnAll } = this.getPaginationParams(itemIndex);
+			const { returnAll, limit } = this.getPaginationParams(itemIndex);
+			const qs = this.buildQueryParams({ agent_type: agentType });
 
-			const qs = this.buildQueryParams({
-				agent_type: agentType,
-				limit: returnAll ? undefined : limit,
-			});
+			if (returnAll) {
+				return this.httpRequestAll({ url: `${this.baseUrl}/agents`, qs, pageSize: 100 });
+			}
 
 			return await this.httpRequest({
 				method: 'GET',
 				url: `${this.baseUrl}/agents`,
-				qs,
+				qs: { ...qs, limit },
 			});
 		} else if (operation === 'get') {
 			const agentId = this.getParameter<string>('agentId', itemIndex);

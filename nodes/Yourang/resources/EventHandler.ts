@@ -65,11 +65,12 @@ export class EventHandler extends BaseResourceHandler {
 	 */
 	private async getByDate(itemIndex: number): Promise<any> {
 		const targetDate = this.getParameter<string>('targetDate', itemIndex);
-		const { limit } = this.getPaginationParams(itemIndex);
+		const { returnAll, limit } = this.getPaginationParams(itemIndex);
 
 		const qs = this.buildQueryParams({
 			target_date: this.extractDate(targetDate),
-			limit,
+			// API documents limit=-1 to return all records without pagination
+			limit: returnAll ? -1 : limit,
 		});
 
 		return this.httpRequest({

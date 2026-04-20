@@ -27,6 +27,7 @@ export const workflowOperations: INodeProperties[] = [
 			{
 				name: 'Get Execution Details',
 				value: 'getExecutionDetails',
+				description: 'Get details of a specific workflow execution',
 				action: 'Get execution details',
 			},
 			{
@@ -219,7 +220,7 @@ export const workflowFields: INodeProperties[] = [
 				typeOptions: {
 					minValue: 0,
 				},
-				description: 'Number of executions to skip for pagination',
+				description: 'Number of executions to skip. When Return All is enabled, pagination starts from this offset and continues until all remaining records are fetched.',
 			},
 			{
 				displayName: 'Status',

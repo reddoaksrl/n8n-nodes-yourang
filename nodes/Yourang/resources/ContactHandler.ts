@@ -98,11 +98,16 @@ export class ContactHandler extends BaseResourceHandler {
 	 * Get all contacts with filters
 	 */
 	private async getAll(itemIndex: number): Promise<any> {
-		const { limit } = this.getPaginationParams(itemIndex);
+		const { returnAll, limit } = this.getPaginationParams(itemIndex);
 		const search = this.getParameter<IDataObject>('search', itemIndex, {});
 
 		// Include advancedFilter in search object
 		search.advancedFilter = this.getParameter<string>('advancedFilter', itemIndex, '');
+
+		if (returnAll) {
+			const qs = this.buildContactSearchParams(search, undefined);
+			return this.httpRequestAll({ url: `${this.baseUrl}/contacts`, qs, pageSize: 500 });
+		}
 
 		const qs = this.buildContactSearchParams(search, limit);
 

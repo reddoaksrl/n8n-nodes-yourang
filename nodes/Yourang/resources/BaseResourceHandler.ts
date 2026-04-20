@@ -108,6 +108,71 @@ export abstract class BaseResourceHandler {
 	}
 
 	/**
+	 * Helper: Fetch all pages of a paginated list endpoint.
+	 * Loops with increasing offset until exhaustion.
+	 * Returns { ok, data: [...all items], meta: { total_items } }.
+	 *
+	 * Termination strategy:
+	 *   - When meta.total_items is provided, stop once accumulated >= total_items.
+	 *   - When meta is missing (endpoints outside OpenAPI spec), fall back to
+	 *     stopping when a short page arrives (items.length < pageSize).
+	 *   - A hard iteration cap prevents infinite loops from a misbehaving API.
+	 */
+	protected async httpRequestAll(options: {
+		url: string;
+		qs?: IDataObject;
+		pageSize?: number;
+		startOffset?: number;
+	}): Promise<any> {
+		const pageSize = options.pageSize ?? 50;
+		const maxIterations = 1000;
+		const baseQs = { ...(options.qs ?? {}) };
+		const allData: any[] = [];
+		let offset = typeof options.startOffset === 'number' && options.startOffset > 0 ? options.startOffset : 0;
+		let lastResponse: any;
+		let totalItems = 0;
+		let hasTotalItems = false;
+
+		for (let iter = 0; iter < maxIterations; iter++) {
+			lastResponse = await this.httpRequest({
+				method: 'GET',
+				url: options.url,
+				qs: { ...baseQs, limit: pageSize, offset },
+			});
+
+			const items: any[] = Array.isArray(lastResponse?.data) ? lastResponse.data : [];
+			allData.push(...items);
+
+			const rawTotal = lastResponse?.meta?.total_items;
+			if (typeof rawTotal === 'number' && rawTotal >= 0) {
+				totalItems = rawTotal;
+				hasTotalItems = true;
+			}
+
+			const reachedEnd = hasTotalItems
+				? allData.length >= totalItems
+				: items.length < pageSize;
+
+			if (items.length === 0 || reachedEnd) {
+				return {
+					ok: lastResponse?.ok ?? true,
+					data: allData,
+					meta: { total_items: hasTotalItems ? totalItems : allData.length },
+				};
+			}
+
+			offset += pageSize;
+		}
+
+		// Safety cap hit — return what we have rather than loop forever
+		return {
+			ok: lastResponse?.ok ?? true,
+			data: allData,
+			meta: { total_items: hasTotalItems ? totalItems : allData.length },
+		};
+	}
+
+	/**
 	 * Helper: Extract date part from datetime string (YYYY-MM-DD)
 	 * Handles ISO 8601 datetime strings and already-formatted dates
 	 *

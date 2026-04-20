@@ -39,11 +39,10 @@ export class CallHistoryHandler extends BaseResourceHandler {
 	 * Get all calls with filters
 	 */
 	private async getAllCalls(itemIndex: number): Promise<any> {
-		const { limit } = this.getPaginationParams(itemIndex);
+		const { returnAll, limit } = this.getPaginationParams(itemIndex);
 		const filters = this.getParameter<IDataObject>('filters', itemIndex, {});
 
 		const qs = this.buildQueryParams({
-			limit,
 			sort: filters.sort,
 			call_type: filters.call_type,
 			call_status: filters.call_status,
@@ -52,10 +51,14 @@ export class CallHistoryHandler extends BaseResourceHandler {
 			contact_id: filters.contact_id,
 		});
 
+		if (returnAll) {
+			return this.httpRequestAll({ url: `${this.baseUrl}/call-history`, qs, pageSize: 500 });
+		}
+
 		return this.httpRequest({
 			method: 'GET',
 			url: `${this.baseUrl}/call-history`,
-			qs,
+			qs: { ...qs, limit },
 		});
 	}
 
