@@ -1,0 +1,24 @@
+nodes/Yourang/descriptions/agentTool.description.ts
+  9998ab504fc96669 158-159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "8b10e6b823bd83b33d52b2ab3506681ea1c47f32",
+  "prompts": {
+    "9998ab504fc96669": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "09d70bf4-4fd1-4884-9b5a-804499db5a79",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "ReddoakMatteoSchifano",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2194b4d50c84ee34e57a35e680b2d5d344f780853c3d6efc766206037021ae7f"
+    }
+  }
+}
