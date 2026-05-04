@@ -155,8 +155,8 @@ export const agentToolFields: INodeProperties[] = [
 			},
 		},
 		default: '',
-		placeholder: 'e.g. Gentile {nome_cliente}, la sua prenotazione è stata confermata...',
-		description: 'SMS template (must include {nome_cliente}, {data_inizio}, {data_fine}, {link})',
+		placeholder: 'e.g. Dear {nome_cliente}, your booking on {data_inizio} is confirmed.',
+		description: 'SMS template. Available placeholders: {nome_cliente} (customer name), {data_inizio} (start date), {data_fine} (end date), {link} (booking link).',
 	},
 	{
 		displayName: 'Reservation Duration (Minutes)',
