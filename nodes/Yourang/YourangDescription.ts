@@ -5,8 +5,6 @@ import { callHistoryOperations, callHistoryFields } from './descriptions/callHis
 
 import { contactOperations, contactFields } from './descriptions/contact.description';
 
-import { actionOperations, actionFields } from './descriptions/action.description';
-
 import { eventOperations, eventFields } from './descriptions/event.description';
 
 import { agentOperations, agentFields } from './descriptions/agent.description';
@@ -19,7 +17,6 @@ import { workflowOperations, workflowFields } from './descriptions/workflow.desc
 export const yourangOperations: INodeProperties[] = [
 	...callHistoryOperations,
 	...contactOperations,
-	...actionOperations,
 	...eventOperations,
 	...agentOperations,
 	...agentToolOperations,
@@ -30,7 +27,6 @@ export const yourangOperations: INodeProperties[] = [
 export const yourangFields: INodeProperties[] = [
 	...callHistoryFields,
 	...contactFields,
-	...actionFields,
 	...eventFields,
 	...agentFields,
 	...agentToolFields,

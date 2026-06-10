@@ -144,7 +144,7 @@ export class ContactHandler extends BaseResourceHandler {
 		], itemIndex);
 
 		return this.httpRequest({
-			method: 'PUT',
+			method: 'PATCH',
 			url: `${this.baseUrl}/contacts/by-phone/${encodeURIComponent(phoneNumber)}`,
 			body,
 		});

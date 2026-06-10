@@ -47,19 +47,6 @@ The default API base URL is `https://api.yourang.ai/v1`. See the full [API docum
 | Delete | Remove a contact by ID |
 | Delete by Phone | Remove a contact by phone number |
 
-### Action
-
-| Operation | Description |
-|-----------|-------------|
-| List Available Actions | List all action configurations |
-| Execute Single | Execute an action for a single phone number with optional context |
-| Execute Batch (Numbers) | Execute an action for up to 50 phone numbers |
-| Execute Batch (Contacts) | Execute an action for up to 50 contact IDs |
-| Get Action History | Retrieve action execution history |
-| Get Action History Details | Get details of a specific action execution |
-| Get Batch History | Retrieve batch execution history |
-| Get Batch History Details | Get details of a specific batch execution |
-
 ### Event
 
 | Operation | Description |
@@ -99,7 +86,6 @@ The default API base URL is `https://api.yourang.ai/v1`. See the full [API docum
 ## Example Use Cases
 
 - **CRM Sync** -- Push call history and contact data to your CRM after each call
-- **Outbound Campaigns** -- Trigger batch actions from a spreadsheet or database
 - **Appointment Automation** -- Create, update, and manage events from external calendars
 - **Call Analytics** -- Collect transcripts and AI summaries for reporting dashboards
 - **Agent Configuration** -- Manage AI agent tools and workflows programmatically

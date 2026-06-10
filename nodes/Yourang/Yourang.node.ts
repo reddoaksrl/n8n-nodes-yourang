@@ -10,7 +10,6 @@ import { yourangOperations, yourangFields } from './YourangDescription';
 import { BaseResourceHandler } from './resources/BaseResourceHandler';
 import { CallHistoryHandler } from './resources/CallHistoryHandler';
 import { ContactHandler } from './resources/ContactHandler';
-import { ActionHandler } from './resources/ActionHandler';
 import { EventHandler } from './resources/EventHandler';
 import { AgentHandler } from './resources/AgentHandler';
 import { AgentToolHandler } from './resources/AgentToolHandler';
@@ -29,8 +28,6 @@ function getResourceHandler(
 			return new CallHistoryHandler(context, baseUrl);
 		case 'contact':
 			return new ContactHandler(context, baseUrl);
-		case 'action':
-			return new ActionHandler(context, baseUrl);
 		case 'event':
 			return new EventHandler(context, baseUrl);
 		case 'agent':
@@ -53,7 +50,7 @@ export class Yourang implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description:
-			'Interact with yourang.ai - 24/7 AI phone assistant for calls, contacts, actions, and events',
+			'Interact with yourang.ai - 24/7 AI phone assistant for calls, contacts, and events',
 		defaults: {
 			name: 'Yourang',
 		},
@@ -72,11 +69,6 @@ export class Yourang implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{
-						name: 'Action',
-						value: 'action',
-						description: 'Execute actions and manage action configurations',
-					},
 					{
 						name: 'Agent',
 						value: 'agent',
