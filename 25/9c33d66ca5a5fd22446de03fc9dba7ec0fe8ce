@@ -1,0 +1,21 @@
+nodes/Yourang/resources/ContactHandler.ts
+  s_09e6aab93c672a::t_eed9531848cb96 147
+nodes/Yourang/Yourang.node.ts
+  s_09e6aab93c672a::t_c7f5b9d3f8039d 53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "259c33d66ca5a5fd22446de03fc9dba7ec0fe8ce",
+  "prompts": {},
+  "sessions": {
+    "s_09e6aab93c672a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c5d950d1-5011-4bf6-a1fa-b29b658cdc8b",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
