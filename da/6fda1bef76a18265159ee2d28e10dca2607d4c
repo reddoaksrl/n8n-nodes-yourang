@@ -1,0 +1,21 @@
+package-lock.json
+  s_7d98cf20b92177::t_fda68279cff0f4 3,9
+package.json
+  s_7d98cf20b92177::t_fda68279cff0f4 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "da6fda1bef76a18265159ee2d28e10dca2607d4c",
+  "prompts": {},
+  "sessions": {
+    "s_7d98cf20b92177": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c41aa6db-2d7e-43a1-b03b-3bf8e4e53894",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
