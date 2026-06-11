@@ -1,0 +1,19 @@
+package.json
+  s_027be9a919f248::t_4484c00c319d34 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "dfd75f51cbfcd33464690abe68533aaeab99729c",
+  "prompts": {},
+  "sessions": {
+    "s_027be9a919f248": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fbb8e04-6606-4a36-a3dd-deef56135cab",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
