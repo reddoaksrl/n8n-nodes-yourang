@@ -1,0 +1,21 @@
+nodes/YourangTrigger/YourangTrigger.node.ts
+  s_f6297ee6de3c65::t_b63ff33bf3ae5e 49-73
+README.md
+  s_f6297ee6de3c65::t_fdff6eaffac79c 100-104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "aad398239a27c065c5303869380b36bd5f164c93",
+  "prompts": {},
+  "sessions": {
+    "s_f6297ee6de3c65": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0f208669-9ac0-4c56-8784-02bae66cdc07",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
