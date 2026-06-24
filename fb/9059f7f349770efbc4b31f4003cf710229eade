@@ -1,0 +1,50 @@
+package.json
+  s_b8be51064408a8::t_4d7757d6c25525 50-51
+nodes/YourangTrigger/yourang.svg
+  s_b8be51064408a8::t_e8da81b966f688 1-43
+nodes/YourangTrigger/YourangTrigger.node.ts
+  s_a522ba79ff5034::t_19ae84d7e7e19a 288
+  s_f6297ee6de3c65::t_affb55f77de5db 15-16
+  s_f6297ee6de3c65::t_e8627b5c3a75f8 158,187,244
+  s_f6297ee6de3c65::t_76a8316ecb904c 190-192,206-211,224
+  s_f6297ee6de3c65::t_c6f7571978370e 1
+  s_b8be51064408a8::t_2a0013bb0f738d 2-14,17-58,63,66-76,78-157,159-186,188-189,193-205,212-223,225-243,245-287,289-321
+  s_f6297ee6de3c65::t_3a964047217561 59-62,64-65
+  s_a522ba79ff5034::t_808345f49d2c08 77
+README.md
+  s_b8be51064408a8::t_2b0085677b2d02 86-121
+nodes/YourangTrigger/YourangTrigger.node.json
+  s_b8be51064408a8::t_7e7adb4bbf6dea 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "fb9059f7f349770efbc4b31f4003cf710229eade",
+  "prompts": {},
+  "sessions": {
+    "s_a522ba79ff5034": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ab81914-bbb2-4033-8de6-199bacc790cd",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    },
+    "s_b8be51064408a8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "98461087-6713-496b-b36a-9ec4a66f7fd7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    },
+    "s_f6297ee6de3c65": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0f208669-9ac0-4c56-8784-02bae66cdc07",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
