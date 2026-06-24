@@ -1,0 +1,11 @@
+{
+  "node": "n8n-nodes-yourang.yourangTrigger",
+  "nodeVersion": "1.0",
+  "codexVersion": "1.0",
+  "categories": ["Miscellaneous"],
+  "resources": {
+    "primaryDocumentation": [
+      { "url": "https://developers.yourang.ai/" }
+    ]
+  }
+}

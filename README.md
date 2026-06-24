@@ -83,6 +83,42 @@ The default API base URL is `https://api.yourang.ai/v1`. See the full [API docum
 | Get Executions | List workflow executions |
 | Get Execution Details | Get details of a specific execution |
 
+## Trigger
+
+The **Yourang Trigger** node starts a workflow when yourang emits an event, replacing the
+manual `Webhook` + `Code` parsing pattern. Select one or more events and the node receives a
+typed, signed payload.
+
+| Event | Fires when |
+|-------|------------|
+| Call Ended | A call finished and its record was persisted |
+| Call Summary Ready | The async summary of a call is ready |
+| Appointment Booked | An appointment/event was created (CONFIRMED) |
+| Appointment Updated | An appointment was rescheduled/approved/rejected |
+| Appointment Cancelled | An appointment was cancelled |
+| Contact Created | A new contact (lead) was created |
+
+On activation the node registers a subscription on yourang
+(`POST /app/v1/webhooks/subscriptions`) with the workflow's webhook URL and a generated
+secret; on deactivation it removes it. Incoming requests are verified against the
+`X-Yourang-Signature` (HMAC-SHA256) header and deduplicated by `event_id`.
+
+**Payload envelope**
+
+```json
+{
+  "event": "call.ended",
+  "event_id": "uuid",
+  "occurred_at": "ISO-8601",
+  "organization_id": "uuid",
+  "data": { }
+}
+```
+
+> Requires the platform outbound-webhook API. Until it ships, turn off **Auto-Register
+> Subscription** in the node options to test by POSTing the envelope to the webhook URL
+> directly.
+
 ## Example Use Cases
 
 - **CRM Sync** -- Push call history and contact data to your CRM after each call
