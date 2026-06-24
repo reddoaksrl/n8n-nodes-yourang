@@ -46,6 +46,31 @@ const EVENT_OPTIONS = [
 		value: 'contact.created',
 		description: 'A new contact (lead) was created',
 	},
+	{
+		name: 'Call Transcript Ready',
+		value: 'call.transcript_ready',
+		description: 'The transcript of a call is available',
+	},
+	{
+		name: 'Order Created',
+		value: 'order.created',
+		description: 'A new order was created',
+	},
+	{
+		name: 'Order Status Changed',
+		value: 'order.status_changed',
+		description: 'An order changed status (confirmed, completed, cancelled, refused)',
+	},
+	{
+		name: 'Dialer Contact Completed',
+		value: 'dialer.contact.completed',
+		description: 'A campaign contact reached a terminal outcome',
+	},
+	{
+		name: 'Dialer Campaign Completed',
+		value: 'dialer.campaign.completed',
+		description: 'A dialer campaign finished processing all contacts',
+	},
 ];
 
 interface SubscriptionStaticData {

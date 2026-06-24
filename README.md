@@ -97,6 +97,11 @@ typed, signed payload.
 | Appointment Updated | An appointment was rescheduled/approved/rejected |
 | Appointment Cancelled | An appointment was cancelled |
 | Contact Created | A new contact (lead) was created |
+| Call Transcript Ready | The transcript of a call is available |
+| Order Created | A new order was created |
+| Order Status Changed | An order changed status (confirmed/completed/cancelled/refused) |
+| Dialer Contact Completed | A campaign contact reached a terminal outcome |
+| Dialer Campaign Completed | A dialer campaign finished processing all contacts |
 
 On activation the node registers a subscription on yourang
 (`POST /app/v1/webhooks/subscriptions`) with the workflow's webhook URL and a generated
