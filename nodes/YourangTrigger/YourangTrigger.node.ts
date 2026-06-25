@@ -150,7 +150,7 @@ export class YourangTrigger implements INodeType {
 						type: 'boolean',
 						default: true,
 						description:
-							'Whether to verify the X-Yourang-Signature HMAC header. Only enforced when a subscription secret is known (auto-register on).',
+							'Whether to verify the X-Webhook-Signature HMAC header. Only enforced when a subscription secret is known (auto-register on).',
 					},
 					{
 						displayName: 'Deduplicate by Event ID',
@@ -295,7 +295,7 @@ export class YourangTrigger implements INodeType {
 
 		// 1. Signature verification (only when a secret is known)
 		if (verifySignature && staticData.secret) {
-			const headerSig = (this.getHeaderData() as IDataObject)['x-yourang-signature'] as
+			const headerSig = (this.getHeaderData() as IDataObject)['x-webhook-signature'] as
 				| string
 				| undefined;
 			const rawBody: Buffer | undefined = (req as unknown as { rawBody?: Buffer }).rawBody;

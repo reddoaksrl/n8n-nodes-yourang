@@ -106,7 +106,7 @@ typed, signed payload.
 On activation the node registers a subscription on yourang
 (`POST /app/v1/webhooks/subscriptions`) with the workflow's webhook URL and a generated
 secret; on deactivation it removes it. Incoming requests are verified against the
-`X-Yourang-Signature` (HMAC-SHA256) header and deduplicated by `event_id`.
+`X-Webhook-Signature` (HMAC-SHA256) header and deduplicated by `event_id`.
 
 **Payload envelope**
 
