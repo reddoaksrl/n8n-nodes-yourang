@@ -76,8 +76,22 @@ const EVENT_OPTIONS = [
 interface SubscriptionStaticData {
 	subscriptionId?: string;
 	secret?: string;
-	events?: string[];
 	seenEventIds?: string[];
+}
+
+/**
+ * Extract the HTTP status code from an n8n/HTTP error, as a string.
+ * n8n surfaces it as `httpCode` (string); the raw request error uses
+ * `statusCode` / `response.statusCode`.
+ */
+function httpErrorStatus(error: unknown): string | undefined {
+	const e = error as {
+		httpCode?: string | number;
+		statusCode?: number;
+		response?: { statusCode?: number; status?: number };
+	};
+	const status = e.httpCode ?? e.statusCode ?? e.response?.statusCode ?? e.response?.status;
+	return status === undefined ? undefined : String(status);
 }
 
 /**
@@ -188,10 +202,16 @@ export class YourangTrigger implements INodeType {
 					});
 					return true;
 				} catch (error) {
-					// Subscription no longer exists on the server
-					delete staticData.subscriptionId;
-					delete staticData.secret;
-					return false;
+					// Only a 404 means the subscription is really gone -> forget it so
+					// n8n recreates it. On transient errors (401/429/5xx/network) keep the
+					// stored id+secret, otherwise we'd create a duplicate subscription and
+					// lose the signing secret.
+					if (httpErrorStatus(error) === '404') {
+						delete staticData.subscriptionId;
+						delete staticData.secret;
+						return false;
+					}
+					return true;
 				}
 			},
 
@@ -202,8 +222,8 @@ export class YourangTrigger implements INodeType {
 				const staticData = this.getWorkflowStaticData('node') as SubscriptionStaticData;
 
 				if (!autoRegister) {
-					// Manual mode: remember the chosen events for filtering, no API call.
-					staticData.events = events;
+					// Manual mode: no API call. webhook() filters on the live `events`
+					// parameter, so nothing needs to be stored here.
 					return true;
 				}
 
@@ -217,8 +237,9 @@ export class YourangTrigger implements INodeType {
 					description: 'n8n Yourang Trigger',
 				};
 
+				let response: IDataObject;
 				try {
-					const response = (await this.helpers.httpRequestWithAuthentication.call(
+					response = (await this.helpers.httpRequestWithAuthentication.call(
 						this,
 						'yourangApi',
 						{
@@ -227,41 +248,42 @@ export class YourangTrigger implements INodeType {
 							body,
 						},
 					)) as IDataObject;
-
-					// The external API wraps payloads as { ok, data: {...} }. The raw
-					// signing secret is returned exactly once here and is the secret the
-					// platform uses to sign deliveries, so we must store THIS secret.
-					const data = ((response.data as IDataObject) ?? response) as IDataObject;
-					const id = data.id as string | undefined;
-					const secret = data.secret as string | undefined;
-					if (!id) {
-						return false;
-					}
-
-					staticData.subscriptionId = id;
-					staticData.secret = secret;
-					staticData.events = events;
-					return true;
 				} catch (error) {
 					throw new NodeApiError(this.getNode(), error as JsonObject, {
 						message: 'Failed to create yourang webhook subscription',
 						description:
-							'The platform webhook subscriptions API (/api/external/v1/webhooks) may not be available yet. Turn off "Auto-Register Subscription" to test the node manually.',
+							'The platform webhook subscriptions API ({baseUrl}/webhooks) may not be available yet. Turn off "Auto-Register Subscription" to test the node manually.',
 					});
 				}
+
+				// The external API wraps payloads as { ok, data: {...} }. The raw signing
+				// secret is returned exactly once here and is what the platform uses to
+				// sign deliveries, so we must store THIS secret.
+				const data = ((response.data as IDataObject) ?? response) as IDataObject;
+				const id = data.id as string | undefined;
+				const secret = data.secret as string | undefined;
+				if (!id) {
+					// POST succeeded but we can't identify the subscription -> surface it
+					// instead of silently leaving an unmanageable (orphan) subscription.
+					throw new NodeApiError(this.getNode(), response as JsonObject, {
+						message: 'yourang webhook subscription response did not include an id',
+						description: 'Cannot manage a subscription without its id; aborting activation.',
+					});
+				}
+
+				staticData.subscriptionId = id;
+				staticData.secret = secret;
+				return true;
 			},
 
 			async delete(this: IHookFunctions): Promise<boolean> {
 				const staticData = this.getWorkflowStaticData('node') as SubscriptionStaticData;
 				const subscriptionId = staticData.subscriptionId;
 
-				// Always clear local state
-				delete staticData.subscriptionId;
-				delete staticData.secret;
-				delete staticData.events;
-				delete staticData.seenEventIds;
-
 				if (!subscriptionId) {
+					// Manual mode or never registered: just clear any local dedupe state.
+					delete staticData.secret;
+					delete staticData.seenEventIds;
 					return true;
 				}
 
@@ -273,9 +295,17 @@ export class YourangTrigger implements INodeType {
 						url,
 					});
 				} catch (error) {
-					// Best-effort: if the delete fails the subscription may already be gone.
-					return false;
+					// 404 -> already gone, fall through and clear. Any other error means
+					// the subscription may still be live; keep local state so n8n can
+					// retry deletion rather than orphaning it on the platform.
+					if (httpErrorStatus(error) !== '404') {
+						return false;
+					}
 				}
+
+				delete staticData.subscriptionId;
+				delete staticData.secret;
+				delete staticData.seenEventIds;
 				return true;
 			},
 		},
@@ -291,17 +321,29 @@ export class YourangTrigger implements INodeType {
 		const body = this.getBodyData() as IDataObject;
 		const staticData = this.getWorkflowStaticData('node') as SubscriptionStaticData;
 
-		const ignore = (): IWebhookResponseData => ({ webhookResponse: { status: 200, body: { ok: true } } as IDataObject });
+		const ignore = (): IWebhookResponseData => ({
+			webhookResponse: { status: 200, body: { ok: true } } as IDataObject,
+		});
 
-		// 1. Signature verification (only when a secret is known)
+		// 1. Signature verification (only when a secret is known).
 		if (verifySignature && staticData.secret) {
 			const headerSig = (this.getHeaderData() as IDataObject)['x-webhook-signature'] as
 				| string
 				| undefined;
+			// The platform signs the RAW request body bytes. We must verify against the
+			// same bytes - re-serializing the parsed body (JSON.stringify) would differ in
+			// key order/whitespace and never match, so require the raw body.
 			const rawBody: Buffer | undefined = (req as unknown as { rawBody?: Buffer }).rawBody;
-			const payload = rawBody && rawBody.length ? rawBody : Buffer.from(JSON.stringify(body));
+			if (!rawBody || !rawBody.length) {
+				return {
+					webhookResponse: {
+						status: 401,
+						body: { error: 'raw body unavailable for signature verification' },
+					} as IDataObject,
+				};
+			}
 			const expected =
-				'sha256=' + createHmac('sha256', staticData.secret).update(payload).digest('hex');
+				'sha256=' + createHmac('sha256', staticData.secret).update(rawBody).digest('hex');
 
 			if (!headerSig || !safeEqual(headerSig, expected)) {
 				return {
@@ -310,13 +352,14 @@ export class YourangTrigger implements INodeType {
 			}
 		}
 
-		// 2. Event-type filtering (defensive - platform should already filter)
+		// 2. Event-type filtering (defensive - platform should already filter).
+		// Treat a missing/empty event as "not subscribed" so unknown payloads are ignored.
 		const eventName = body.event as string | undefined;
-		if (eventName && selectedEvents.length && !selectedEvents.includes(eventName)) {
+		if (selectedEvents.length && (!eventName || !selectedEvents.includes(eventName))) {
 			return ignore();
 		}
 
-		// 3. Deduplicate by event_id
+		// 3. Deduplicate by event_id.
 		if (dedupe && body.event_id) {
 			const seen = staticData.seenEventIds ?? [];
 			if (seen.includes(body.event_id as string)) {
@@ -334,7 +377,7 @@ export class YourangTrigger implements INodeType {
 }
 
 /**
- * Constant-time string comparison that tolerates length differences.
+ * Constant-time comparison of two equal-length signature strings.
  */
 function safeEqual(a: string, b: string): boolean {
 	const bufA = Buffer.from(a);

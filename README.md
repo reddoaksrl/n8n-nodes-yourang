@@ -104,8 +104,9 @@ typed, signed payload.
 | Dialer Campaign Completed | A dialer campaign finished processing all contacts |
 
 On activation the node registers a subscription on yourang
-(`POST /app/v1/webhooks/subscriptions`) with the workflow's webhook URL and a generated
-secret; on deactivation it removes it. Incoming requests are verified against the
+(`POST {baseUrl}/webhooks`, e.g. `https://api.yourang.ai/v1/webhooks`) with the workflow's
+webhook URL; the platform returns a one-time signing secret that the node stores. On
+deactivation it removes the subscription. Incoming requests are verified against the
 `X-Webhook-Signature` (HMAC-SHA256) header and deduplicated by `event_id`.
 
 **Payload envelope**
