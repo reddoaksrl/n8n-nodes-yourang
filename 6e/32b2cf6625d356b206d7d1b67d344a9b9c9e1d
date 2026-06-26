@@ -1,0 +1,28 @@
+README.md
+  s_a522ba79ff5034::t_2ea385bc107b1a 107-109
+package.json
+  s_a522ba79ff5034::t_555bad6ea8027e 3
+nodes/YourangTrigger/YourangTrigger.node.ts
+  s_a522ba79ff5034::t_4ab8c814ff63a8 82-94
+  s_a522ba79ff5034::t_c33e0671076a3b 205-214,225-226,240,242,255-270,273-276,284-286,298-303,305-308,324-326,328,333,335,337-344,346,355-356,358,362,380
+  s_a522ba79ff5034::t_440eb9eee00e0b 334
+  s_a522ba79ff5034::t_be7bd0a3452cfc 95-96
+package-lock.json
+  s_a522ba79ff5034::t_05858aa352f51e 3,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "6e32b2cf6625d356b206d7d1b67d344a9b9c9e1d",
+  "prompts": {},
+  "sessions": {
+    "s_a522ba79ff5034": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ab81914-bbb2-4033-8de6-199bacc790cd",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
