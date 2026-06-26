@@ -1,0 +1,24 @@
+docs/yourang-external-tools-agent-plan.md
+  s_b8be51064408a8::t_6a59b796b3488c 1-153
+docs/n8n-workflow-analysis.md
+  s_b8be51064408a8::t_f4338c1ceb2dcd 185
+  s_b8be51064408a8::t_337a1d5e708c90 195-221
+  s_b8be51064408a8::t_18b7dc89583c81 141-146
+  s_b8be51064408a8::t_5656e6aee47a36 1-140,147-184,186-194,222-224
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "08434ebb35afe06d26f0b7bb2cd67e002c95abf6",
+  "prompts": {},
+  "sessions": {
+    "s_b8be51064408a8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "98461087-6713-496b-b36a-9ec4a66f7fd7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
