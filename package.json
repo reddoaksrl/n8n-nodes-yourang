@@ -47,7 +47,8 @@
       "dist/credentials/YourangApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Yourang/Yourang.node.js"
+      "dist/nodes/Yourang/Yourang.node.js",
+      "dist/nodes/YourangTrigger/YourangTrigger.node.js"
     ]
   },
   "peerDependencies": {
