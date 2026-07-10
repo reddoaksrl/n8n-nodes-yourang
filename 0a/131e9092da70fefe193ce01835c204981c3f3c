@@ -1,0 +1,58 @@
+nodes/Yourang/descriptions/catalogueItem.description.ts
+  s_6785cbafcfe21c::t_d83e981a0d6988 1-358
+nodes/Yourang/resources/ContactListHandler.ts
+  s_6785cbafcfe21c::t_50ba100d0bc277 71
+  s_6785cbafcfe21c::t_35f491084524ea 1-70,72-143
+nodes/Yourang/descriptions/catalogue.description.ts
+  s_6785cbafcfe21c::t_c30bf4d4549d6a 1-243
+nodes/Yourang/resources/CatalogueHandler.ts
+  s_6785cbafcfe21c::t_75d4f18c51b314 1-36,49,55-154
+  s_6785cbafcfe21c::t_fa6f3a774f2478 37-48,50-54
+nodes/Yourang/resources/BaseResourceHandler.ts
+  s_6785cbafcfe21c::t_4c773242e18ae5 147-152
+  s_6785cbafcfe21c::t_1d4833462185ff 115-118
+nodes/Yourang/resources/CatalogueItemHandler.ts
+  s_6785cbafcfe21c::t_fd0e3bcc0dbc0f 1-173
+nodes/Yourang/descriptions/contactList.description.ts
+  s_6785cbafcfe21c::t_5a01175b9faf8f 1-96,98-161
+  s_6785cbafcfe21c::t_82ca53b4db4e81 97
+nodes/Yourang/descriptions/campaign.description.ts
+  s_6785cbafcfe21c::t_eeeaafab197981 1-173
+nodes/Yourang/descriptions/wallet.description.ts
+  s_6785cbafcfe21c::t_2ebbd09ab40c85 1-102
+nodes/Yourang/resources/WalletHandler.ts
+  s_6785cbafcfe21c::t_dad743dc051a46 1-35
+nodes/Yourang/resources/OrderHandler.ts
+  s_6785cbafcfe21c::t_a780c2a33193ed 1-109
+nodes/Yourang/YourangDescription.ts
+  s_6785cbafcfe21c::t_95efbd9836d62a 16-30,39-44,55-60
+nodes/Yourang/Yourang.node.ts
+  s_6785cbafcfe21c::t_f8e6678314555b 17-22
+  s_6785cbafcfe21c::t_c1c6ace006feae 45-56
+  s_6785cbafcfe21c::t_9ed0dddcc1bac3 105-119,125-129,135-144
+nodes/Yourang/descriptions/order.description.ts
+  s_6785cbafcfe21c::t_e9c6d3a452b3d6 51
+  s_6785cbafcfe21c::t_33d521ccb64092 1-50,52-195
+README.md
+  s_6785cbafcfe21c::t_f33d5b94a8bc0a 86-143
+nodes/Yourang/resources/CampaignHandler.ts
+  s_6785cbafcfe21c::t_fd4af6f71da25f 1-115
+package.json
+  s_6785cbafcfe21c::t_63899381b961dc 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0a131e9092da70fefe193ce01835c204981c3f3c",
+  "prompts": {},
+  "sessions": {
+    "s_6785cbafcfe21c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6a6d36dc-1f00-4a69-bf4e-29d4dbf84265",
+        "model": "claude-fable-5"
+      },
+      "human_author": "ReddoakMatteoSchifano <matteo.schifano@reddoak.com>"
+    }
+  }
+}
