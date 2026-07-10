@@ -83,6 +83,64 @@ The default API base URL is `https://api.yourang.ai/v1`. See the full [API docum
 | Get Executions | List workflow executions |
 | Get Execution Details | Get details of a specific execution |
 
+### Campaign
+
+| Operation | Description |
+|-----------|-------------|
+| Get | Get campaign details |
+| Get Many | List campaigns with status/search filters |
+| Get Stats | Get campaign statistics |
+| Pause | Pause a running campaign |
+| Resume | Resume a paused campaign |
+| Start | Start a campaign |
+| Stop | Stop a campaign |
+
+### Catalogue
+
+| Operation | Description |
+|-----------|-------------|
+| Create | Create a catalogue, optionally with initial items |
+| Delete | Delete a catalogue (optionally preserving its items as standalone) |
+| Get | Get catalogue details |
+| Get Many | List catalogues with search/sort filters |
+| Update | Update catalogue name or description |
+
+### Catalogue Item
+
+| Operation | Description |
+|-----------|-------------|
+| Assign | Assign items to a catalogue, or unassign them (standalone) |
+| Create | Create a catalogue item or standalone item |
+| Delete | Delete an item |
+| Get | Get item details |
+| Get Many | List items with catalogue/search/sort/standalone filters |
+| Update | Update item fields (name, price, quantity, ...) |
+
+### Contact List
+
+| Operation | Description |
+|-----------|-------------|
+| Add Contacts | Add contacts to a list by ID or phone number (optionally auto-creating missing contacts) |
+| Get | Get contact list details |
+| Get Contacts | List contacts in a contact list |
+| Get Many | List contact lists |
+| Remove Contacts | Remove contacts from a list by ID or phone number |
+
+### Order
+
+| Operation | Description |
+|-----------|-------------|
+| Get | Get order details |
+| Get Many | List orders with status/date/sort filters |
+| Update | Update order status, notes, or refusal reason |
+
+### Wallet
+
+| Operation | Description |
+|-----------|-------------|
+| Get | Get the wallet snapshot (balance) |
+| Get Many Transactions | List wallet transactions with type/date filters |
+
 ## Trigger
 
 The **Yourang Trigger** node starts a workflow when yourang emits an event, replacing the
