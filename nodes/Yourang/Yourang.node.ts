@@ -14,6 +14,12 @@ import { EventHandler } from './resources/EventHandler';
 import { AgentHandler } from './resources/AgentHandler';
 import { AgentToolHandler } from './resources/AgentToolHandler';
 import { WorkflowHandler } from './resources/WorkflowHandler';
+import { CampaignHandler } from './resources/CampaignHandler';
+import { CatalogueHandler } from './resources/CatalogueHandler';
+import { CatalogueItemHandler } from './resources/CatalogueItemHandler';
+import { ContactListHandler } from './resources/ContactListHandler';
+import { OrderHandler } from './resources/OrderHandler';
+import { WalletHandler } from './resources/WalletHandler';
 
 /**
  * Get the appropriate handler for a resource
@@ -36,6 +42,18 @@ function getResourceHandler(
 			return new AgentToolHandler(context, baseUrl);
 		case 'workflow':
 			return new WorkflowHandler(context, baseUrl);
+		case 'campaign':
+			return new CampaignHandler(context, baseUrl);
+		case 'catalogue':
+			return new CatalogueHandler(context, baseUrl);
+		case 'catalogueItem':
+			return new CatalogueItemHandler(context, baseUrl);
+		case 'contactList':
+			return new ContactListHandler(context, baseUrl);
+		case 'order':
+			return new OrderHandler(context, baseUrl);
+		case 'wallet':
+			return new WalletHandler(context, baseUrl);
 		default:
 			throw new NodeOperationError(context.getNode(), `Unknown resource: ${resource}`);
 	}
@@ -85,14 +103,44 @@ export class Yourang implements INodeType {
 						description: 'Retrieve and manage call history records',
 					},
 					{
+						name: 'Campaign',
+						value: 'campaign',
+						description: 'Manage and control outbound call campaigns',
+					},
+					{
+						name: 'Catalogue',
+						value: 'catalogue',
+						description: 'Manage product catalogues',
+					},
+					{
+						name: 'Catalogue Item',
+						value: 'catalogueItem',
+						description: 'Manage catalogue items and products',
+					},
+					{
 						name: 'Contact',
 						value: 'contact',
 						description: 'Manage customer contacts and information',
 					},
 					{
+						name: 'Contact List',
+						value: 'contactList',
+						description: 'Manage contact lists and their members',
+					},
+					{
 						name: 'Event',
 						value: 'event',
 						description: 'Manage calendar events and appointments',
+					},
+					{
+						name: 'Order',
+						value: 'order',
+						description: 'Retrieve and update customer orders',
+					},
+					{
+						name: 'Wallet',
+						value: 'wallet',
+						description: 'Retrieve wallet balance and transactions',
 					},
 					{
 						name: 'Workflow',

@@ -13,6 +13,21 @@ import { agentToolOperations, agentToolFields } from './descriptions/agentTool.d
 
 import { workflowOperations, workflowFields } from './descriptions/workflow.description';
 
+import { campaignOperations, campaignFields } from './descriptions/campaign.description';
+
+import { catalogueOperations, catalogueFields } from './descriptions/catalogue.description';
+
+import {
+	catalogueItemOperations,
+	catalogueItemFields,
+} from './descriptions/catalogueItem.description';
+
+import { contactListOperations, contactListFields } from './descriptions/contactList.description';
+
+import { orderOperations, orderFields } from './descriptions/order.description';
+
+import { walletOperations, walletFields } from './descriptions/wallet.description';
+
 // Combine all operations
 export const yourangOperations: INodeProperties[] = [
 	...callHistoryOperations,
@@ -21,6 +36,12 @@ export const yourangOperations: INodeProperties[] = [
 	...agentOperations,
 	...agentToolOperations,
 	...workflowOperations,
+	...campaignOperations,
+	...catalogueOperations,
+	...catalogueItemOperations,
+	...contactListOperations,
+	...orderOperations,
+	...walletOperations,
 ];
 
 // Combine all fields
@@ -31,4 +52,10 @@ export const yourangFields: INodeProperties[] = [
 	...agentFields,
 	...agentToolFields,
 	...workflowFields,
+	...campaignFields,
+	...catalogueFields,
+	...catalogueItemFields,
+	...contactListFields,
+	...orderFields,
+	...walletFields,
 ];

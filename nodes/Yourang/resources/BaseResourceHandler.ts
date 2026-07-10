@@ -112,6 +112,10 @@ export abstract class BaseResourceHandler {
 	 * Loops with increasing offset until exhaustion.
 	 * Returns { ok, data: [...all items], meta: { total_items } }.
 	 *
+	 * Supports both response envelopes used by the API:
+	 *   - data: [...items]
+	 *   - data: { items: [...items], total, limit, offset }  (e.g. GET /orders)
+	 *
 	 * Termination strategy:
 	 *   - When meta.total_items is provided, stop once accumulated >= total_items.
 	 *   - When meta is missing (endpoints outside OpenAPI spec), fall back to
@@ -140,7 +144,12 @@ export abstract class BaseResourceHandler {
 				qs: { ...baseQs, limit: pageSize, offset },
 			});
 
-			const items: any[] = Array.isArray(lastResponse?.data) ? lastResponse.data : [];
+			const rawData = lastResponse?.data;
+			const items: any[] = Array.isArray(rawData)
+				? rawData
+				: Array.isArray(rawData?.items)
+					? rawData.items
+					: [];
 			allData.push(...items);
 
 			const rawTotal = lastResponse?.meta?.total_items;
